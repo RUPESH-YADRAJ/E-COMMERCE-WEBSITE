@@ -137,14 +137,36 @@ MEDIA_ROOT = BASE_DIR / "media"
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
+#SMTP configuration
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+with open(BASE_DIR / "email_password.txt", "r") as file:
+    GMAIL_APP_PASSWORD = file.read().strip()
+
 MAILERS = {
     "default": {
-        "BACKEND": "django.core.mail.backends.console.EmailBackend",
+        "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
+        "OPTIONS": {
+            "host": "smtp.gmail.com",
+            "port": 587,
+            "username": "pcuser.mac@gmail.com",
+            "password": GMAIL_APP_PASSWORD,
+            "use_tls": True,
+        },
     },
 }
+
+DEFAULT_FROM_EMAIL = "pcuser.mac@gmail.com"
+
 
 
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
   messages.ERROR: 'danger',
 }
+
+
+
+
