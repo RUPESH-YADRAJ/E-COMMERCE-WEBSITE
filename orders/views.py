@@ -26,6 +26,7 @@ def place_order(request, total=0, quantity=0):
       # store all the billing information inside the order table
       data = Order()
       data.user = current_user
+      data.user = current_user
       data.first_name = form.cleaned_data['first_name']
       data.last_name = form.cleaned_data['last_name']
       data.phone = form.cleaned_data['phone']
@@ -45,9 +46,12 @@ def place_order(request, total=0, quantity=0):
       dt = int(datetime.date.today().strftime('%d'))
       mt = int(datetime.date.today().strftime('%m'))
       d = datetime.date(yr,mt,dt)
-      current_date = d.strftime("%Y%m%d") 
+      current_date = d.strftime("%Y%m%d")
+      print(current_date)
       order_number = current_date + str(data.id)
-      data.order_note = order_number
+      print(order_number)
+      data.order_number = order_number
+      print(data.order_number)
       data.save()
       return redirect('checkout')
 
