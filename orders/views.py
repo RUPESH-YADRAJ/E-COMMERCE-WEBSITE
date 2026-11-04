@@ -5,6 +5,9 @@ from .models import Order
 from .forms import OrderForm
 import datetime
 
+def payments(request):
+  return render(request, 'orders/payments.html')
+
 def place_order(request, total=0, quantity=0):
   current_user = request.user
   # if the cart count is less than or equal to  0, then redirect back to store
@@ -47,13 +50,19 @@ def place_order(request, total=0, quantity=0):
       mt = int(datetime.date.today().strftime('%m'))
       d = datetime.date(yr,mt,dt)
       current_date = d.strftime("%Y%m%d")
-      print(current_date)
       order_number = current_date + str(data.id)
-      print(order_number)
       data.order_number = order_number
-      print(data.order_number)
       data.save()
-      return redirect('checkout')
+
+      order = Order.objects.get(user = current_user, is_ordered = False, order_number = order_number)
+      context = {
+        'order':order,
+        'cart_items':cart_items,
+        'total':total,
+        'tax':tax,
+        'grand_total':grand_total,
+      }
+      return render(request, 'orders/payments.html', context)
 
   else:
     return redirect('checkout')
