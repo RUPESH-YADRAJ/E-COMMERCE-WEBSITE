@@ -12,7 +12,7 @@ def payments(request):
   print(body)
   #store transaction details inside payment model
   payment = Payment(
-    user = request.uer,
+    user = request.user,
     payment_id = body['transID'],
     payment_method = body['payment_method'],
     amount_paid = order.order_total,
