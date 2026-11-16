@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, ReviewRating
 from category.models import Category
 from carts.views import _cart_id
@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
 from .forms import ReviewForm
+from django.contrib import messages
 
 def store(request, category_slug = None):
   categories = None
