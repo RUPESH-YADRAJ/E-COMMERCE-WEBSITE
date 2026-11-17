@@ -45,11 +45,15 @@ def product_detail(request, category_slug, product_slug):
   except OrderProduct.DoesNotExist:
     orderproduct = None
 
+  # get the reviews
+  reviews = ReviewRating.objects.filter(product_id = single_product.id, status = True)
+
 
   context = {
     'single_product': single_product,
     'in_cart': in_cart,
     'orderproduct': orderproduct, 
+    'reviews': reviews,
   }
 
   return render(request, 'store/product_detail.html', context)
@@ -76,6 +80,7 @@ def submit_review(request, product_id):
       form =  ReviewForm(request.POST, instance=reviews)
       form.save()
       messages.success(request, 'Thank you! Your review has been updated.')
+      return redirect(url)
     except ReviewRating.DoesNotExist:
       form = ReviewForm(request.POST)
       if form.is_valid():
