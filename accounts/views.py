@@ -139,7 +139,7 @@ def activate(request, uidb64 , token):
     messages.error(request, 'Invalid activation link')
     return redirect('register')
 
-@login_required(login_url = 'loogin')
+@login_required(login_url = 'login')
 def dashboard(request):
   orders = Order.objects.order_by('-created_at').filter(user_id = request.user.id, is_ordered = True)
   order_count = orders.count()
@@ -209,3 +209,10 @@ def resetPassword(request):
 
   else:
     return render(request, 'accounts/resetPassword.html')
+
+def my_orders(request):
+  orders = Order.objects.filter(user = request.user, is_ordered = True).order_by('-created_at')
+  context = {
+    'orders': orders,
+  }
+  return render(request, 'accounts/my_orders.html', context)
