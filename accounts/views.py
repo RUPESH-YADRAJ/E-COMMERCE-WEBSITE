@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+
+from orders.models import Order
 from .forms import RegistrationForm
 from .models import Account
 from django.contrib import messages, auth
@@ -139,8 +141,13 @@ def activate(request, uidb64 , token):
 
 @login_required(login_url = 'loogin')
 def dashboard(request):
+  orders = Order.objects.order_by('-created_at').filter(user_id = request.user.id, is_ordered = True)
+  order_count = orders.count()
+  context = {
+    'order_count': order_count,
+  }
 
-  return render(request, 'accounts/dashboard.html')
+  return render(request, 'accounts/dashboard.html', context)
 
 def forgotPassword(request):
   if request.method == 'POST':
