@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-777^c-)d(((!_2enqo5ig4l4o%e-yo%=!3o5&o0ko3lo-j=g91"
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=True, cast=bool) 
 
 ALLOWED_HOSTS = []
 
@@ -141,20 +142,20 @@ MEDIA_ROOT = BASE_DIR / "media"
 #SMTP configuration
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
 
-with open(BASE_DIR / "email_password.txt", "r") as file:
-    GMAIL_APP_PASSWORD = file.read().strip()
+# with open(BASE_DIR / "email_password.txt", "r") as file:
+#     GMAIL_APP_PASSWORD = file.read().strip()
 
 MAILERS = {
     "default": {
         "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
         "OPTIONS": {
-            "host": "smtp.gmail.com",
-            "port": 587,
-            "username": "pcuser.mac@gmail.com",
-            "password": GMAIL_APP_PASSWORD,
-            "use_tls": True,
+            "host": config("GMAIL_HOST"),
+            "port": config("GMAIL_PORT, cast=int"),
+            "username": config("GMAIL_USERNAME"),
+            "password": config("GMAIL_APP_PASSWORD"),
+            "use_tls": config("GMAIL_USE_TLS", default=True, cas=bool),
         },
     },
 }
