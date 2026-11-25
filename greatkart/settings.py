@@ -152,10 +152,10 @@ MAILERS = {
         "BACKEND": "django.core.mail.backends.smtp.EmailBackend",
         "OPTIONS": {
             "host": config("GMAIL_HOST"),
-            "port": config("GMAIL_PORT, cast=int"),
+            "port": config("GMAIL_PORT", cast=int),
             "username": config("GMAIL_USERNAME"),
             "password": config("GMAIL_APP_PASSWORD"),
-            "use_tls": config("GMAIL_USE_TLS", default=True, cas=bool),
+            "use_tls": config("GMAIL_USE_TLS", default=True, cast=bool),
         },
     },
 }
