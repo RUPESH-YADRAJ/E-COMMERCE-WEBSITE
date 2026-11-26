@@ -59,7 +59,7 @@ MIDDLEWARE = [
 
 SESSION_EXPIRE_SECONDS = 60 # 1 MINUTE
 SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
-SESSION_TIMEOUT_REDIRECT = 'accounts/login'
+SESSION_TIMEOUT_REDIRECT = 'login'
 
 ROOT_URLCONF = "greatkart.urls"
 
@@ -187,9 +187,7 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY = "same-origin-allow-popups"
 
 
 
-LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+
 
 
 
